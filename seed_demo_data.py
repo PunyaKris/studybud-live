@@ -1,5 +1,3 @@
-
-
 from datetime import timedelta
 from random import choice, randint, sample
 from django.utils import timezone
@@ -14,21 +12,21 @@ Topic.objects.all().delete()
 User.objects.all().delete()
 
 # LOGIN ACCOUNTS
-# admin@studybuddy.com
-# rahul.sharma@studybuddy.com
+# admin@studybuddy.com -
+# rahul.sharma@studybuddy.com -
 # priya.verma@studybuddy.com
 # aman.gupta@studybuddy.com
 # neha.singh@studybuddy.com
 # aditya.mehta@studybuddy.com
 # riya.kapoor@studybuddy.com
-# arjun.nair@studybuddy.com
+# arjun.nair@studybuddy.com -
 # kavya.iyer@studybuddy.com
-# rohit.yadav@studybuddy.com
-# sneha.joshi@studybuddy.com
+# rohit.yadav@studybuddy.com -
+# sneha.joshi@studybuddy.com -
 # vivek.patel@studybuddy.com
 # ananya.rao@studybuddy.com
-# karan.malhotra@studybuddy.com
-# meera.kulkarni@studybuddy.com
+# karan.malhotra@studybuddy.com -
+# meera.kulkarni@studybuddy.com -
 # siddharth.jain@studybuddy.com
 # Password for all users: StudyBuddy123
 

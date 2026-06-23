@@ -68,17 +68,19 @@ def home_page(request):
     print("Authenticated:", request.user.is_authenticated)
     q = request.GET.get('q') if request.GET.get('q') != None else ""
 
-    rooms = Room.objects.filter(
-        Q(topic__name__icontains = q)   |
-        Q(name__icontains = q) |
-        Q(description__icontains = q)
-    )
+    all_rooms = Room.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(description__icontains=q)
+    ).order_by('-update')
+
+    rooms = all_rooms[:7]
 
     all_comments = Message.objects.filter(
         Q(room__topic__name__icontains=q)
     ).order_by('-update')[:7]
-    rooms_count = rooms.count()
-    topics = Topic.objects.all()[0:5]
+    rooms_count = all_rooms.count()
+    topics = Topic.objects.all()[:9]
     context = {'rooms': rooms, 'topics': topics, 'rooms_count': rooms_count, "all_comments": all_comments}
     return render(request, 'base/home.html', context)
 
