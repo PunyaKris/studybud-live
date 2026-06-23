@@ -74,7 +74,9 @@ def home_page(request):
         Q(description__icontains = q)
     )
 
-    all_comments = Message.objects.filter(Q(room__topic__name__icontains = q))
+    all_comments = Message.objects.filter(
+        Q(room__topic__name__icontains=q)
+    ).order_by('-update')[:7]
     rooms_count = rooms.count()
     topics = Topic.objects.all()[0:5]
     context = {'rooms': rooms, 'topics': topics, 'rooms_count': rooms_count, "all_comments": all_comments}
