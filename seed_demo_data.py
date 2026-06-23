@@ -111,9 +111,10 @@ for topic_name, room_names in TOPICS.items():
         )
 
         room_created = timezone.now() - timedelta(days=randint(1, 30), hours=randint(0, 23))
-        room.create = room_created
-        room.update = room_created
-        room.save()
+        Room.objects.filter(id=room.id).update(
+            create=room_created,
+            update=room_created,
+        )
 
         participants = sample(users, randint(5, min(10, len(users))))
         for p in participants:
@@ -132,8 +133,10 @@ for topic_name, room_names in TOPICS.items():
             random_offset = randint(0, max_age_seconds)
             message_time = room_created + timedelta(seconds=random_offset)
 
-            msg.create = message_time
-            msg.update = message_time
-            msg.save()
+            Message.objects.filter(id=msg.id).update(
+                create=message_time,
+                update=message_time,
+            )
 
 print("Demo dataset created successfully.")
+
