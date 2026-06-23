@@ -18,7 +18,7 @@ User.objects.all().delete()
 # aman.gupta@studybuddy.com
 # neha.singh@studybuddy.com
 # aditya.mehta@studybuddy.com
-# riya.kapoor@studybuddy.com
+# riya.kapoor@studybuddy.com -
 # arjun.nair@studybuddy.com -
 # kavya.iyer@studybuddy.com
 # rohit.yadav@studybuddy.com -
