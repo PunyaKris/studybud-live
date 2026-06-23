@@ -110,6 +110,11 @@ for topic_name, room_names in TOPICS.items():
             description=f"Discussion room for {room_name}. Students collaborate, ask questions and share resources.",
         )
 
+        room_created = timezone.now() - timedelta(days=randint(1, 30), hours=randint(0, 23))
+        room.create = room_created
+        room.update = room_created
+        room.save()
+
         participants = sample(users, randint(5, min(10, len(users))))
         for p in participants:
             room.participants.add(p)
@@ -123,9 +128,12 @@ for topic_name, room_names in TOPICS.items():
                 body=choice(message_bank),
             )
 
-            days = randint(0, 21)
-            msg.create = timezone.now() - timedelta(days=days, hours=randint(0, 23))
-            msg.update = msg.create
+            max_age_seconds = max(1, int((timezone.now() - room_created).total_seconds()))
+            random_offset = randint(0, max_age_seconds)
+            message_time = room_created + timedelta(seconds=random_offset)
+
+            msg.create = message_time
+            msg.update = message_time
             msg.save()
 
 print("Demo dataset created successfully.")
