@@ -15,7 +15,7 @@ User.objects.all().delete()
 # admin@studybuddy.com -
 # rahul.sharma@studybuddy.com -
 # priya.verma@studybuddy.com
-# aman.gupta@studybuddy.com
+# aman.preet@studybuddy.com
 # neha.singh@studybuddy.com
 # aditya.mehta@studybuddy.com
 # riya.kapoor@studybuddy.com -
@@ -37,6 +37,8 @@ admin = User.objects.create_superuser(
 )
 admin.name = "Punya Mohan"
 admin.bio = "Creator of StudyBuddy. Interested in software engineering, physics and building communities around learning."
+admin.save()
+admin.avatar = 'admin dp.jpeg'
 admin.save()
 
 users_data = [
@@ -71,6 +73,33 @@ for name, email, bio in users_data:
     u.save()
     users.append(u)
 
+# Set avatars for specific users
+user_map = {u.email: u for u in users}
+
+user_map['sneha.joshi@studybuddy.com'].avatar = 'images (1).jpeg'
+user_map['sneha.joshi@studybuddy.com'].save()
+
+user_map['rahul.sharma@studybuddy.com'].avatar = 'Max.jpeg'
+user_map['rahul.sharma@studybuddy.com'].save()
+
+user_map['meera.kulkarni@studybuddy.com'].avatar = 'images (3).jpeg'
+user_map['meera.kulkarni@studybuddy.com'].save()
+
+user_map['rohit.yadav@studybuddy.com'].avatar = 'images (5).jpeg'
+user_map['rohit.yadav@studybuddy.com'].save()
+
+user_map['priya.verma@studybuddy.com'].avatar = 'name.webp'
+user_map['priya.verma@studybuddy.com'].save()
+
+user_map['arjun.nair@studybuddy.com'].avatar = 'images (4).jpeg'
+user_map['arjun.nair@studybuddy.com'].save()
+
+user_map['vivek.patel@studybuddy.com'].avatar = 'VHW1965_2007417871_m.jpg'
+user_map['vivek.patel@studybuddy.com'].save()
+
+user_map['aditya.mehta@studybuddy.com'].avatar = 'images.jpeg'
+user_map['aditya.mehta@studybuddy.com'].save()
+
 TOPICS = {
     "Web Development": ["Django Beginners Hub", "React Frontend Discussions", "Building Full-Stack Projects", "API Design & Backend Development"],
     "Machine Learning": ["First ML Project", "Neural Networks & Deep Learning", "Kaggle Competitions", "AI Research Papers Club"],
@@ -97,11 +126,27 @@ message_bank = [
     "This topic is much easier once you visualize it.",
 ]
 
+# Featured hosts for special rooms
+featured_hosts = [
+    user_map['sneha.joshi@studybuddy.com'],
+    user_map['rahul.sharma@studybuddy.com'],
+    user_map['meera.kulkarni@studybuddy.com'],
+    user_map['aman.gupta@studybuddy.com'],
+    user_map['rohit.yadav@studybuddy.com'],
+    user_map['siddharth.jain@studybuddy.com'],
+    user_map['priya.verma@studybuddy.com'],
+]
+
+featured_room_counter = 0
+
 for topic_name, room_names in TOPICS.items():
     topic = Topic.objects.create(name=topic_name)
 
     for room_name in room_names:
-        host = choice(users)
+        if featured_room_counter < len(featured_hosts):
+            host = featured_hosts[featured_room_counter]
+        else:
+            host = choice(users)
 
         room = Room.objects.create(
             host=host,
@@ -115,6 +160,11 @@ for topic_name, room_names in TOPICS.items():
             create=room_created,
             update=room_created,
         )
+
+        if featured_room_counter < len(featured_hosts):
+            featured_time = timezone.now() - timedelta(minutes=featured_room_counter)
+            Room.objects.filter(id=room.id).update(update=featured_time)
+            featured_room_counter += 1
 
         participants = sample(users, randint(5, min(10, len(users))))
         for p in participants:
